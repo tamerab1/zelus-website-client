@@ -5,8 +5,8 @@ const PLATFORMS = [
     id:    'windows',
     label: 'Windows',
     badge: 'Windows 10 / 11',
-    file:  'ZelusLauncher-windows.zip',
-    note:  'Extract the ZIP and run ZelusLauncher.exe — no Java required.',
+    file:  'ZelusLauncher-windows.exe',
+    note:  'Run the installer. No Java required.',
   },
   {
     id:    'mac',
@@ -153,7 +153,7 @@ export default function DownloadView() {
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:24 }}>
           {[
             { n:'1', title:'Download',   body:'Get the launcher for your OS above.' },
-            { n:'2', title:'Install',    body:'Run the installer or extract the ZIP.' },
+            { n:'2', title:'Install',    body:'Run the installer (Windows) or open the DMG/DEB.' },
             { n:'3', title:'Play',       body:'The launcher downloads the client and connects automatically.' },
           ].map(({ n, title, body }) => (
             <div key={n} style={{ textAlign:'center', padding:'24px 16px',
