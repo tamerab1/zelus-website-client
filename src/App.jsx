@@ -12,20 +12,22 @@ import AccountPanel    from './components/account/AccountPanel.jsx';
 import AdminDashboard  from './components/admin/AdminDashboard.jsx';
 import VoteView        from './components/vote/VoteView.jsx';
 import HiscoresView   from './components/hiscores/HiscoresView.jsx';
+import DownloadView   from './components/download/DownloadView.jsx';
 
 function AppRoutes() {
   const { currentView, currentUser } = useApp();
 
   return (
     <>
-      {currentView === 'home'   && <HomeView />}
-      {currentView === 'store'  && <StoreView />}
-      {currentView === 'login'  && <LoginForm />}
+      {currentView === 'home'     && <HomeView />}
+      {currentView === 'store'    && <StoreView />}
+      {currentView === 'login'    && <LoginForm />}
       {currentView === 'register' && <RegisterForm />}
-      {currentView === 'panel'  && currentUser && <AccountPanel />}
-      {currentView === 'admin'  && isAdmin(currentUser?.privilege) && <AdminDashboard />}
-      {currentView === 'vote'      && <VoteView />}
-      {currentView === 'hiscores'  && <HiscoresView />}
+      {currentView === 'panel'    && currentUser && <AccountPanel />}
+      {currentView === 'admin'    && isAdmin(currentUser?.privilege) && <AdminDashboard />}
+      {currentView === 'vote'     && <VoteView />}
+      {currentView === 'hiscores' && <HiscoresView />}
+      {currentView === 'download' && <DownloadView />}
     </>
   );
 }

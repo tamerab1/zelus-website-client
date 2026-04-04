@@ -4,9 +4,10 @@ import { isAdmin } from '../../utils/ranks.js';
 import logo from '../../assets/logo.png';
 
 const LEFT_LINKS = [
-  { label: 'HOME',   view: 'home'  },
-  { label: 'FORUMS', view: null    },
-  { label: 'STORE',  view: 'store' },
+  { label: 'HOME',     view: 'home'     },
+  { label: 'FORUMS',   view: null       },
+  { label: 'STORE',    view: 'store'    },
+  { label: 'DOWNLOAD', view: 'download' },
 ];
 
 const RIGHT_LINKS = [
