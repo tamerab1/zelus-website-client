@@ -176,17 +176,7 @@ export default function Hero() {
         {/* ── Stacked CTA buttons ── */}
         <div className="flex flex-col items-center gap-4 w-full">
 
-          {/* 1 — PLAY NOW */}
-          <MMOButton wide={false}>
-            <span
-              className="text-sm tracking-[0.25em] font-bold"
-              style={{ color: '#f0e060', textShadow: '0 0 14px rgba(212,175,55,0.8), 0 1px 3px rgba(0,0,0,0.9)' }}
-            >
-              PLAY NOW
-            </span>
-          </MMOButton>
-
-          {/* 2 — DOWNLOAD CLIENT */}
+          {/* DOWNLOAD CLIENT */}
           <MMOButton wide={true} onClick={() => setCurrentView('download')}>
             <div className="flex flex-col items-center gap-0.5">
               <div className="flex items-center gap-3">
@@ -213,7 +203,6 @@ export default function Hero() {
         <div className="flex flex-wrap justify-center gap-6 mt-12">
           {[
             { label: 'Players Online', value: onlineCount === null ? '…' : onlineCount },
-            { label: 'Registered',     value: '12,000+' },
             { label: 'Custom Items',   value: '500+'    },
           ].map(({ label, value }) => (
             <div
