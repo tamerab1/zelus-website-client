@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -A 20 private.*deserializePlayerFromFile C:UsersתאמרDesktopZelusDMMPVPcoresrcmainjavacomzenytegameworldentityplayerloginLoginManager.java)",
+      "WebFetch(domain:roatpkz.com)",
+      "Bash(find C:/Users/תאמר/Desktop/Zelus/DMMPVP -name *.yml -o -name *.yaml)",
+      "Bash(grep -i \"\\\\.kt$\")",
+      "Bash(xargs grep:*)",
+      "Bash(find C:UsersתאמרDesktopZelusDMMPVP -path */app/src* -type f -name *.kt)",
+      "Bash(xargs basename:*)",
+      "Bash(find C:UsersתאמרDesktopZelusDMMPVP/net/src -type f -name *.kt)",
+      "Bash(PGPASSWORD=SQ6UMey4YwFNcqLsdbDkXmp9 psql -h 51.81.27.5 -p 5432 -U nr -d nr -c \"\\\\dt\")",
+      "Bash(python3:*)",
+      "Bash(python:*)",
+      "Bash(where python*)",
+      "Bash(where py:*)",
+      "Bash(py:*)"
+    ]
+  }
+}

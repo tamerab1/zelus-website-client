@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext.jsx';
-import { submitVote, fetchVoteStatus } from '../../services/voteService.js';
+import { submitVote, fetchVoteStatus, checkGameUsername } from '../../services/voteService.js';
 import { ServerUnreachableError } from '../../services/api.js';
 import VOTE_SITES from '../../data/voteSites.js';
 import VoteCard from './VoteCard.jsx';
@@ -21,6 +21,12 @@ export default function VoteView() {
   const [statusError,    setStatusError]    = useState(null);
   const [voteErrors,     setVoteErrors]     = useState({}); // { [siteId]: message }
 
+  // Game username validation gate
+  const [gameUsername,        setGameUsername]        = useState('');
+  const [gameUsernameInput,   setGameUsernameInput]   = useState('');
+  const [gameUsernameError,   setGameUsernameError]   = useState('');
+  const [gameUsernameLoading, setGameUsernameLoading] = useState(false);
+
   /* ── Load vote statuses on mount ─────────────────────────── */
   useEffect(() => {
     if (!currentUser) { setStatusLoading(false); return; }
@@ -40,8 +46,33 @@ export default function VoteView() {
       .finally(() => setStatusLoading(false));
   }, [currentUser]);
 
+  /* ── Game username verification ─────────────────────────── */
+  const handleVerifyUsername = async (e) => {
+    e.preventDefault();
+    const name = gameUsernameInput.trim();
+    if (!name) return;
+    setGameUsernameError('');
+    setGameUsernameLoading(true);
+    try {
+      const { exists } = await checkGameUsername(name);
+      if (exists) {
+        setGameUsername(name);
+      } else {
+        setGameUsernameError(
+          `No in-game character named "${name}" was found. Please use your exact character name.`
+        );
+      }
+    } catch {
+      setGameUsernameError('Could not verify username. Please try again.');
+    } finally {
+      setGameUsernameLoading(false);
+    }
+  };
+
   /* ── Vote handler ────────────────────────────────────────── */
   const handleVoteClick = async (siteId) => {
+    if (!gameUsername) return;
+
     // Clear any previous error for this site
     setVoteErrors(prev => ({ ...prev, [siteId]: null }));
 
@@ -52,7 +83,7 @@ export default function VoteView() {
     }
 
     try {
-      await submitVote(currentUser.id, siteId);
+      await submitVote(currentUser.id, siteId, gameUsername);
       // Success → pending state (ready to claim in-game)
       setSiteStates(prev => ({
         ...prev,
@@ -134,7 +165,7 @@ export default function VoteView() {
               {/* Daily total bar */}
               <div
                 className="max-w-2xl mx-auto mb-10 p-5 flex flex-col sm:flex-row items-center justify-between gap-4"
-                style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid #1e1a14', borderRadius: 2 }}
+                style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid #2e2820', borderRadius: 2 }}
               >
                 <div>
                   <p className="font-fantasy text-xs tracking-widest" style={{ color: '#d4af37' }}>
@@ -154,8 +185,57 @@ export default function VoteView() {
                 </div>
               </div>
 
+              {/* ── Game username validation gate ─────────────── */}
+              {!gameUsername ? (
+                <div className="stone-panel max-w-md mx-auto mb-10 p-8" style={{ borderRadius: 2 }}>
+                  <p className="font-fantasy text-sm tracking-widest text-white mb-1">
+                    Enter Your In-Game Name
+                  </p>
+                  <p className="font-sans text-xs mb-5" style={{ color: '#666' }}>
+                    We verify your character exists before registering your vote.
+                  </p>
+                  <form onSubmit={handleVerifyUsername} className="flex flex-col gap-3">
+                    <input
+                      type="text"
+                      placeholder="Character name (exact)"
+                      maxLength={12}
+                      required
+                      className="rpg-input font-fantasy text-sm tracking-wide px-4 py-3"
+                      value={gameUsernameInput}
+                      onChange={e => { setGameUsernameInput(e.target.value); setGameUsernameError(''); }}
+                    />
+                    {gameUsernameError && (
+                      <p className="font-sans text-xs text-red-400">{gameUsernameError}</p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={gameUsernameLoading || !gameUsernameInput.trim()}
+                      className="btn-download py-3 font-fantasy text-xs tracking-widest uppercase"
+                    >
+                      {gameUsernameLoading ? 'Verifying...' : 'Verify Character'}
+                    </button>
+                  </form>
+                </div>
+              ) : (
+                <div className="max-w-3xl mx-auto mb-6 flex items-center gap-3 px-1">
+                  <span className="font-fantasy text-xs tracking-widest" style={{ color: '#d4af37' }}>
+                    Voting as:
+                  </span>
+                  <span className="font-fantasy text-xs text-white">{gameUsername}</span>
+                  <button
+                    onClick={() => { setGameUsername(''); setGameUsernameInput(''); }}
+                    className="font-fantasy text-xs tracking-widest"
+                    style={{ color: '#555', marginLeft: 'auto' }}
+                    onMouseOver={e => e.currentTarget.style.color = '#d4af37'}
+                    onMouseOut={e  => e.currentTarget.style.color = '#555'}
+                  >
+                    Change
+                  </button>
+                </div>
+              )}
+
               {/* Vote cards grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto${!gameUsername ? ' opacity-40 pointer-events-none select-none' : ''}`}>
                 {VOTE_SITES.map(site => (
                   <div key={site.id}>
                     <VoteCard

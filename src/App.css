@@ -182,3 +182,61 @@
     border-right-color: var(--border);
   }
 }
+/* --- עיצוב Dark Fantasy ל-Hero --- */
+
+/* שכבת הכהיה לרקע */
+.fantasy-overlay {
+  background: linear-gradient(to bottom, rgba(10, 14, 23, 0.5) 0%, rgba(10, 14, 23, 0.8) 50%, rgba(10, 14, 23, 1) 50%);
+}
+
+/* אפקט זהב תלת-ממדי כבד לכותרת ZELUS */
+.metal-text {
+  background: linear-gradient(to bottom, #fffde7 0%, #ffd700 30%, #b8860b 55%, #553a00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.8)) drop-shadow(0px 0px 20px rgba(0, 191, 255, 0.3));
+}
+
+/* כפתור זהב יצוק ל-Download */
+.btn-heavy-gold {
+  background: linear-gradient(to bottom, #ffd700, #b8860b);
+  border: 2px solid #ffde40;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 6px 15px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease-in-out;
+  border-radius: 4px; /* קצוות מחודדים למראה RSPS קלאסי */
+}
+
+.btn-heavy-gold:hover {
+  background: linear-gradient(to bottom, #ffea70, #daa520);
+  transform: translateY(-2px);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* כפתור מתכת כהה ל-Discord */
+.btn-dark-metal {
+  background: linear-gradient(to bottom, rgba(35, 35, 45, 0.9), rgba(15, 15, 20, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 6px 15px rgba(0, 0, 0, 0.6);
+  color: #ccc;
+  transition: all 0.2s ease-in-out;
+  border-radius: 4px;
+}
+
+.btn-dark-metal:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* תיבות סטטיסטיקה במסגרת פנטזיה */
+.stat-box-fantasy {
+  background: linear-gradient(to bottom, rgba(25, 25, 30, 0.85), rgba(10, 10, 15, 0.95));
+  border: 1px solid rgba(212, 175, 55, 0.3); /* מסגרת זהב עדינה */
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 4px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  padding: 1.25rem 2rem;
+  min-width: 160px;
+}

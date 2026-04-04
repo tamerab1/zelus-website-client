@@ -1,7 +1,30 @@
 import { useApp } from '../../context/AppContext.jsx';
+import { useState, useEffect } from 'react';
+
+const API = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
 
 export default function ServerStatusWidget({ hiscores, loading }) {
   const { setCurrentView } = useApp();
+  const [onlineCount, setOnlineCount] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(`${API}/players/online`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setOnlineCount(data.online ?? 0);
+      } catch {
+        // silently ignore — keep previous value
+      }
+    };
+
+    fetchCount();
+    const interval = setInterval(fetchCount, 30_000); // refresh every 30s
+    return () => { cancelled = true; clearInterval(interval); };
+  }, []);
 
   return (
     <div className="stone-panel">
@@ -27,8 +50,8 @@ export default function ServerStatusWidget({ hiscores, loading }) {
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">
           {[
-            { label: 'Online Now',    value: '247'                              },
-            { label: 'Top Champions', value: loading ? '—' : hiscores.length   },
+            { label: 'Online Now',    value: onlineCount === null ? '…' : onlineCount },
+            { label: 'Top Champions', value: loading ? '—' : hiscores.length          },
           ].map(({ label, value }) => (
             <div
               key={label}

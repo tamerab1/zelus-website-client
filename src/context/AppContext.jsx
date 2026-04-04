@@ -1,13 +1,35 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { checkout } from '../services/storeService.js';
 
 const AppContext = createContext(null);
 
+function loadFromStorage(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export function AppProvider({ children }) {
-  const [currentUser, setCurrentUser]     = useState(null);
-  const [currentView, setCurrentView]     = useState('home');
-  const [authStatus, setAuthStatus]       = useState({ type: '', message: '' });
-  const [storeMessage, setStoreMessage]   = useState({ type: '', message: '' });
+  const [currentUser, setCurrentUserState] = useState(() => loadFromStorage('currentUser', null));
+  const [currentView, setCurrentViewState] = useState(() => loadFromStorage('currentView', 'home'));
+  const [authStatus,  setAuthStatus]       = useState({ type: '', message: '' });
+  const [storeMessage, setStoreMessage]    = useState({ type: '', message: '' });
+
+  // Keep localStorage in sync whenever these change
+  const setCurrentUser = (user) => {
+    setCurrentUserState(user);
+    if (user) localStorage.setItem('currentUser', JSON.stringify(user));
+    else       localStorage.removeItem('currentUser');
+  };
+
+  const setCurrentView = (view) => {
+    setCurrentViewState(view);
+    localStorage.setItem('currentView', JSON.stringify(view));
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
 
   const handleLogout = () => {
     setCurrentUser(null);
