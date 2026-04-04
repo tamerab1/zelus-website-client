@@ -187,7 +187,7 @@ export default function Hero() {
           </MMOButton>
 
           {/* 2 — DOWNLOAD CLIENT */}
-          <MMOButton wide={true} onClick={() => window.location.href = 'https://github.com/tamerab1/zelus-server/releases/download/v1.0.0/zelus-launcher-1.0.0.jar'}>
+          <MMOButton wide={true} onClick={() => setCurrentView('download')}>
             <div className="flex flex-col items-center gap-0.5">
               <div className="flex items-center gap-3">
                 <span
