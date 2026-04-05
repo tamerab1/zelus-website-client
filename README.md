@@ -4,6 +4,8 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2024-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-1.25-009639?style=for-the-badge&logo=nginx&logoColor=white)
 
 A production-deployed, full-featured React SPA serving as the community web portal for **Zelus RSPS** — a custom RuneScape private server. The portal provides player authentication, a live donation store (Stripe & PayPal), a voting reward system, real-time game event feeds, and a full hiscores leaderboard — all without any client-side routing library.
 
@@ -254,6 +256,103 @@ src/
     ├── hero.jpg                # Full-viewport hero background image
     └── logo.png                # Zelus logo
 ```
+
+---
+
+## Docker & Production Deployment
+
+The React app is shipped as a **minimal, production-hardened Docker image** using a two-stage build. No Node.js runtime exists in the final image — only compiled static files served by nginx.
+
+### Dockerfile (multi-stage build)
+
+```
+Stage 1 — Builder (node:20-alpine)
+  ├── npm install
+  ├── npm run build        ← Vite compiles src/ → dist/
+  └── Output: dist/
+
+Stage 2 — Server (nginx:1.25-alpine)
+  ├── COPY dist/ → /usr/share/nginx/html
+  └── COPY docker-nginx.conf → /etc/nginx/conf.d/default.conf
+```
+
+The nginx config serves the SPA correctly by routing all paths to `index.html` (required for the History API-based routing):
+
+```nginx
+location / {
+    try_files $uri $uri/ /index.html;
+}
+```
+
+### Full Stack with Docker Compose
+
+In production the React app runs as one of five containers managed by Docker Compose on a Hetzner Cloud VPS:
+
+| Container | Image | Role |
+|---|---|---|
+| `zelus_nginx` | nginx:1.25-alpine | Reverse proxy, SSL termination (Let's Encrypt) |
+| `zelus_website` | zelus/website | React app (this repo) served via nginx |
+| `zelus_api` | zelus/api | FastAPI Python backend |
+| `zelus_postgres` | postgres:16 | Web application database |
+| `zelus_game` | zelus/game-server | Java game server |
+
+### Building & Running the Website Container
+
+**Build the image:**
+
+```bash
+docker build \
+  --build-arg VITE_API_URL=https://api.zelus.gg \
+  --build-arg VITE_TURNSTILE_SITE_KEY=your_key \
+  -t zelus/website .
+```
+
+**Run standalone (for testing):**
+
+```bash
+docker run -p 8080:80 zelus/website
+# Visit http://localhost:8080
+```
+
+**Run as part of the full stack:**
+
+```bash
+# From the root of the monorepo (where docker-compose.yml lives)
+docker compose --profile web up -d
+```
+
+### Environment Variables at Build Time
+
+Vite bakes environment variables into the static bundle at build time via `--build-arg`. These are the only two variables the React app needs:
+
+| Build Arg | Production Value | Description |
+|---|---|---|
+| `VITE_API_URL` | `https://api.zelus.gg` | FastAPI backend base URL |
+| `VITE_TURNSTILE_SITE_KEY` | Cloudflare public key | CAPTCHA site key (safe to expose) |
+
+> No secrets are embedded in the Docker image. All backend secrets (Stripe keys, SMTP credentials, database passwords) live exclusively in the API container's environment, passed via the Docker Compose `env_file` directive.
+
+### Production Infrastructure
+
+```
+Internet
+   │
+   ▼
+Cloudflare CDN (DDoS protection, caching)
+   │
+   ▼
+Hetzner Cloud VPS — Ubuntu 22.04
+   │
+   ▼
+Docker Compose (5 containers, zelus_internal network)
+   ├── zelus_nginx      → Ports 80/443, terminates SSL, proxies to website & api
+   ├── zelus_website    → Serves React static build (internal only)
+   ├── zelus_api        → FastAPI on port 8000 (internal only)
+   ├── zelus_postgres   → PostgreSQL (internal only)
+   └── zelus_game       → Java game server
+```
+
+SSL certificates are managed automatically by **Certbot** (Let's Encrypt), renewed via a cron job on the VPS. The nginx container serves `https://zelusrsps.com` with A+ TLS configuration.
 
 ---
 
