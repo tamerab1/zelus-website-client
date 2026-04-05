@@ -36,29 +36,35 @@ const _initialPaymentResult = consumePaymentResult();
 
 /** Maps URL pathname → view name */
 const PATH_TO_VIEW = {
-  '/':          'home',
-  '/store':     'store',
-  '/donate':    'store',
-  '/vote':      'vote',
-  '/hiscores':  'hiscores',
-  '/download':  'download',
-  '/login':     'login',
-  '/register':  'register',
-  '/account':   'panel',
+  '/':                'home',
+  '/store':           'store',
+  '/donate':          'store',
+  '/vote':            'vote',
+  '/hiscores':        'hiscores',
+  '/download':        'download',
+  '/login':           'login',
+  '/register':        'register',
+  '/account':         'panel',
+  '/forgot-password': 'forgot_password',
+  '/reset-password':  'reset_password',
+  '/verify-email':    'verify_email',
 };
 
 /** Maps view name → canonical URL path */
 const VIEW_TO_PATH = {
-  home:          '/',
-  store:         '/store',
-  vote:          '/vote',
-  hiscores:      '/hiscores',
-  download:      '/download',
-  login:         '/login',
-  register:      '/register',
-  panel:         '/account',
-  admin:         '/account',
-  payment_result: '/',
+  home:            '/',
+  store:           '/store',
+  vote:            '/vote',
+  hiscores:        '/hiscores',
+  download:        '/download',
+  login:           '/login',
+  register:        '/register',
+  panel:           '/account',
+  admin:           '/account',
+  payment_result:  '/',
+  forgot_password: '/forgot-password',
+  reset_password:  '/reset-password',
+  verify_email:    '/verify-email',
 };
 
 function getInitialView() {

@@ -65,7 +65,16 @@ export default function LoginForm() {
             </button>
           </form>
 
-          <div className="text-center mt-6">
+          <div className="text-center mt-6 flex flex-col gap-3">
+            <button
+              onClick={() => setCurrentView('forgot_password')}
+              className="font-fantasy text-xs tracking-widest transition-colors"
+              style={{ color: '#555' }}
+              onMouseOver={e => e.currentTarget.style.color = '#d4af37'}
+              onMouseOut={e  => e.currentTarget.style.color = '#555'}
+            >
+              Forgot your password?
+            </button>
             <button
               onClick={() => setCurrentView('register')}
               className="font-fantasy text-xs tracking-widest transition-colors"

@@ -1,6 +1,7 @@
 const storePackages = [
   {
     id: 1,
+    slug: 'donator',
     name:   'Donator',
     price:  10,
     tokens: 100,
@@ -18,6 +19,7 @@ const storePackages = [
   },
   {
     id: 2,
+    slug: 'super_donator',
     name:    'Super Donator',
     price:   25,
     tokens:  275,
@@ -37,6 +39,7 @@ const storePackages = [
   },
   {
     id: 3,
+    slug: 'extreme_donator',
     name:   'Extreme Donator',
     price:  50,
     tokens: 600,
@@ -56,6 +59,7 @@ const storePackages = [
   },
   {
     id: 4,
+    slug: 'legendary',
     name:   'Legendary',
     price:  100,
     tokens: 1250,
@@ -75,6 +79,7 @@ const storePackages = [
   },
   {
     id: 5,
+    slug: 'sponsor',
     name:   'Sponsor',
     price:  250,
     tokens: 3500,
