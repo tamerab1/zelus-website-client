@@ -105,21 +105,33 @@ export default function VoteView() {
 
       {/* Page header */}
       <div className="text-center mb-14">
-        <p className="font-fantasy text-xs tracking-[0.45em] mb-3" style={{ color: 'rgba(212,175,55,0.45)' }}>
-          SUPPORT THE SERVER
-        </p>
-        <h2 className="font-fantasy text-4xl sm:text-5xl font-bold mb-6"
-            style={{ color: 'white', textShadow: '0 0 30px rgba(212,175,55,0.15)' }}>
-          VOTE FOR REWARDS
-        </h2>
-        <div className="gold-divider max-w-xs mx-auto" />
-        <p className="max-w-md mx-auto mt-8 text-sm leading-relaxed font-light" style={{ color: '#9a8f80' }}>
-          Vote daily on each topsite to earn Vote Points, experience tomes, and gold.
-          After voting, type <span className="font-mono text-xs px-1.5 py-0.5"
-          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #2a2420', borderRadius: 2, color: '#d4af37' }}>
-            ::claimvote
-          </span> in-game to receive your reward.
-        </p>
+        <div
+          className="inline-block px-10 pt-8 pb-9 mb-2 rounded-sm"
+          style={{
+            background: 'linear-gradient(180deg, rgba(5,4,8,0.72) 0%, rgba(5,4,8,0.45) 100%)',
+            backdropFilter: 'blur(2px)',
+            boxShadow: '0 0 60px rgba(0,0,0,0.6)',
+          }}
+        >
+          <p className="font-fantasy text-xs tracking-[0.55em] mb-3"
+             style={{ color: '#d4af37', textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>
+            SUPPORT THE SERVER
+          </p>
+          <h2 className="font-fantasy text-4xl sm:text-5xl font-bold mb-6"
+              style={{ color: '#ffffff', textShadow: '0 2px 20px rgba(0,0,0,0.9), 0 0 30px rgba(212,175,55,0.2)' }}>
+            VOTE FOR REWARDS
+          </h2>
+          <div className="gold-divider max-w-xs mx-auto" />
+          <p className="max-w-md mx-auto mt-6 text-sm leading-relaxed" style={{ color: '#c8bfb0', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
+            Vote daily on each topsite to earn Vote Points, experience tomes, and gold.
+            After voting, type{' '}
+            <span className="font-mono text-xs px-1.5 py-0.5"
+              style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(212,175,55,0.4)', borderRadius: 2, color: '#d4af37' }}>
+              ::claimvote
+            </span>
+            {' '}in-game to receive your reward.
+          </p>
+        </div>
       </div>
 
       {/* Not logged in */}

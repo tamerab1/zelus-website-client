@@ -161,18 +161,27 @@ export default function StoreView() {
 
       {/* Header */}
       <div className="text-center mb-14">
-        <p className="font-fantasy text-sm tracking-[0.45em] mb-3"
-           style={{ color: 'rgba(212,175,55,0.6)' }}>
-          SUPPORT THE SERVER
-        </p>
-        <h2 className="font-fantasy text-4xl sm:text-5xl font-bold mb-4"
-            style={{ color: 'white', textShadow: '0 0 30px rgba(212,175,55,0.2)' }}>
-          THE EMPORIUM
-        </h2>
-        <div className="gold-divider max-w-xs mx-auto mb-6" />
-        <p className="max-w-lg mx-auto text-sm leading-relaxed" style={{ color: '#9a8f80' }}>
-          Support Zelus and unlock exclusive ranks, zones, and perks. All donations are permanent.
-        </p>
+        <div
+          className="inline-block px-10 pt-8 pb-9 mb-2 rounded-sm"
+          style={{
+            background: 'linear-gradient(180deg, rgba(5,4,8,0.72) 0%, rgba(5,4,8,0.45) 100%)',
+            backdropFilter: 'blur(2px)',
+            boxShadow: '0 0 60px rgba(0,0,0,0.6)',
+          }}
+        >
+          <p className="font-fantasy text-xs tracking-[0.55em] mb-3"
+             style={{ color: '#d4af37', textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>
+            SUPPORT THE SERVER
+          </p>
+          <h2 className="font-fantasy text-4xl sm:text-5xl font-bold mb-4"
+              style={{ color: '#ffffff', textShadow: '0 2px 20px rgba(0,0,0,0.9), 0 0 30px rgba(212,175,55,0.2)' }}>
+            THE EMPORIUM
+          </h2>
+          <div className="gold-divider max-w-xs mx-auto mb-5" />
+          <p className="max-w-lg mx-auto text-sm leading-relaxed" style={{ color: '#c8bfb0', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
+            Support Zelus and unlock exclusive ranks, zones, and perks. All donations are permanent.
+          </p>
+        </div>
       </div>
 
       <AlertBox status={storeMessage} className="max-w-2xl mx-auto mb-10" />
