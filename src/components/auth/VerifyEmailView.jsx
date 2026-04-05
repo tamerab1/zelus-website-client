@@ -16,7 +16,7 @@ export default function VerifyEmailView() {
       setDone(true);
       return;
     }
-    fetch(`${API}/api/verify-email?token=${encodeURIComponent(token)}`)
+    fetch(`${API}/verify-email?token=${encodeURIComponent(token)}`)
       .then(res => res.json().then(data => ({ ok: res.ok, data })))
       .then(({ ok, data }) => {
         if (ok) {

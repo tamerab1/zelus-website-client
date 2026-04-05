@@ -15,7 +15,7 @@ export default function ForgotPasswordForm() {
     setSubmitting(true);
     setStatus({ type: 'info', message: 'Sending reset link...' });
     try {
-      await fetch(`${API}/api/forgot-password`, {
+      await fetch(`${API}/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
