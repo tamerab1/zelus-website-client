@@ -71,7 +71,7 @@ export default function VoteCard({ site, initialState = 'idle', initialSecondsLe
         <span className="text-2xl">{site.icon}</span>
         <div>
           <p className="font-fantasy text-base font-bold text-white tracking-wide">{site.name}</p>
-          <p className="font-sans text-xs mt-0.5" style={{ color: '#555' }}>{site.tagline}</p>
+          <p className="font-sans text-xs mt-0.5" style={{ color: '#9a8f80' }}>{site.tagline}</p>
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export default function VoteCard({ site, initialState = 'idle', initialSecondsLe
           {site.rewards.map(reward => (
             <li key={reward} className="flex items-center gap-2">
               <span className="text-xs" style={{ color: '#d4af37' }}>◆</span>
-              <span className="font-sans text-xs" style={{ color: '#888' }}>{reward}</span>
+              <span className="font-sans text-xs" style={{ color: '#b0a590' }}>{reward}</span>
             </li>
           ))}
         </ul>
@@ -127,7 +127,7 @@ export default function VoteCard({ site, initialState = 'idle', initialSecondsLe
               <span className="text-green-400">READY TO CLAIM IN-GAME</span>
             </div>
             <div className="text-center">
-              <p className="font-fantasy text-xs tracking-widest" style={{ color: '#555' }}>
+              <p className="font-fantasy text-xs tracking-widest" style={{ color: '#9a8f80' }}>
                 Type&nbsp;
                 <span
                   className="font-mono px-1.5 py-0.5"
@@ -138,9 +138,9 @@ export default function VoteCard({ site, initialState = 'idle', initialSecondsLe
                 &nbsp;in-game
               </p>
               {timeLeft > 0 && (
-                <p className="font-fantasy text-xs mt-2" style={{ color: '#444' }}>
+                <p className="font-fantasy text-xs mt-2" style={{ color: '#9a8f80' }}>
                   Next vote in&nbsp;
-                  <span className="font-mono" style={{ color: '#666' }}>{formatTime(timeLeft)}</span>
+                  <span className="font-mono" style={{ color: '#c8bfb0' }}>{formatTime(timeLeft)}</span>
                 </p>
               )}
             </div>
@@ -159,7 +159,7 @@ export default function VoteCard({ site, initialState = 'idle', initialSecondsLe
             </div>
             {timeLeft > 0 && (
               <div className="text-center">
-                <p className="font-fantasy text-xs" style={{ color: '#555' }}>Available again in</p>
+                <p className="font-fantasy text-xs" style={{ color: '#9a8f80' }}>Available again in</p>
                 <p
                   className="font-mono text-lg font-bold mt-1"
                   style={{ color: '#ef4444', textShadow: '0 0 8px rgba(239,68,68,0.3)' }}

@@ -170,7 +170,7 @@ export default function StoreView() {
           THE EMPORIUM
         </h2>
         <div className="gold-divider max-w-xs mx-auto mb-6" />
-        <p className="text-gray-400 max-w-lg mx-auto text-sm leading-relaxed">
+        <p className="max-w-lg mx-auto text-sm leading-relaxed" style={{ color: '#9a8f80' }}>
           Support Zelus and unlock exclusive ranks, zones, and perks. All donations are permanent.
         </p>
       </div>
@@ -226,7 +226,7 @@ export default function StoreView() {
               <span className="text-2xl shrink-0">{icon}</span>
               <div>
                 <p className="font-fantasy text-sm tracking-wide mb-1" style={{ color: '#e8e0d0' }}>{title}</p>
-                <p className="text-xs leading-relaxed" style={{ color: '#8a8070' }}>{body}</p>
+                <p className="text-xs leading-relaxed" style={{ color: '#9a8f80' }}>{body}</p>
               </div>
             </div>
           ))}

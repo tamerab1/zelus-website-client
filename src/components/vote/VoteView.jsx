@@ -113,7 +113,7 @@ export default function VoteView() {
           VOTE FOR REWARDS
         </h2>
         <div className="gold-divider max-w-xs mx-auto" />
-        <p className="font-sans text-gray-500 max-w-md mx-auto mt-8 text-sm leading-relaxed font-light">
+        <p className="max-w-md mx-auto mt-8 text-sm leading-relaxed font-light" style={{ color: '#9a8f80' }}>
           Vote daily on each topsite to earn Vote Points, experience tomes, and gold.
           After voting, type <span className="font-mono text-xs px-1.5 py-0.5"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #2a2420', borderRadius: 2, color: '#d4af37' }}>
@@ -171,7 +171,7 @@ export default function VoteView() {
                   <p className="font-fantasy text-xs tracking-widest" style={{ color: '#d4af37' }}>
                     DAILY VOTING REWARDS
                   </p>
-                  <p className="font-sans text-xs mt-1" style={{ color: '#666' }}>
+                  <p className="font-sans text-xs mt-1" style={{ color: '#9a8f80' }}>
                     Vote on all {VOTE_SITES.length} sites for maximum rewards every 12 hours.
                   </p>
                 </div>
@@ -191,7 +191,7 @@ export default function VoteView() {
                   <p className="font-fantasy text-sm tracking-widest text-white mb-1">
                     Enter Your In-Game Name
                   </p>
-                  <p className="font-sans text-xs mb-5" style={{ color: '#666' }}>
+                  <p className="font-sans text-xs mb-5" style={{ color: '#9a8f80' }}>
                     We verify your character exists before registering your vote.
                   </p>
                   <form onSubmit={handleVerifyUsername} className="flex flex-col gap-3">
@@ -267,7 +267,7 @@ export default function VoteView() {
                   </div>
                   <div className="p-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {[
-                      { step: '1', title: 'Click VOTE',     body: 'The topsite opens in a new tab. Cast your vote on the external site.' },
+                      { step: '1', title: 'Click VOTE',      body: 'The topsite opens in a new tab. Cast your vote on the external site.' },
                       { step: '2', title: 'Wait for Credit', body: 'The topsite sends a callback to the server confirming your vote.' },
                       { step: '3', title: '::claimvote',     body: 'Log in to the game and type ::claimvote to receive your rewards instantly.' },
                     ].map(({ step, title, body }) => (
@@ -280,7 +280,7 @@ export default function VoteView() {
                         </span>
                         <div>
                           <p className="font-fantasy text-xs tracking-widest text-white mb-1">{title}</p>
-                          <p className="font-sans text-xs leading-relaxed" style={{ color: '#666' }}>{body}</p>
+                          <p className="font-sans text-xs leading-relaxed" style={{ color: '#9a8f80' }}>{body}</p>
                         </div>
                       </div>
                     ))}
