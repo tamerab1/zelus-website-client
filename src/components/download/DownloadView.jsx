@@ -58,13 +58,13 @@ function PlatformCard({ platform }) {
           marginBottom:6 }}>
           {label}
         </div>
-        <div style={{ fontSize:11, color:'#6b6040', letterSpacing:'0.12em', fontFamily:'monospace' }}>
+        <div style={{ fontSize:11, color:'#b0a590', letterSpacing:'0.12em', fontFamily:'monospace' }}>
           {badge}
         </div>
       </div>
 
       {/* Note */}
-      <p style={{ fontSize:12, color:'#8a8070', textAlign:'center', lineHeight:1.7,
+      <p style={{ fontSize:12, color:'#b0a590', textAlign:'center', lineHeight:1.7,
         maxWidth:220, minHeight:38 }}>
         {note}
       </p>
@@ -104,30 +104,42 @@ export default function DownloadView() {
       {/* ── Hero ── */}
       <div style={{
         textAlign:'center', padding:'72px 24px 48px',
-        background:'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 100%)',
         borderBottom:'1px solid rgba(212,175,55,0.1)',
         marginBottom:64,
       }}>
-        {/* Divider line top */}
-        <div style={{ width:120, height:1, margin:'0 auto 32px',
-          background:'linear-gradient(90deg,transparent,#d4af37,transparent)' }} />
-
-        <h1 className="font-fantasy" style={{
-          fontSize:'clamp(28px,5vw,48px)', letterSpacing:'0.2em',
-          color:'#f0d060', textShadow:'0 0 40px rgba(212,175,55,0.5)',
-          marginBottom:16,
+        <div style={{
+          display:'inline-block', padding:'40px 48px 36px',
+          background:'linear-gradient(180deg, rgba(5,4,8,0.72) 0%, rgba(5,4,8,0.45) 100%)',
+          backdropFilter:'blur(2px)',
+          boxShadow:'0 0 60px rgba(0,0,0,0.6)',
         }}>
-          DOWNLOAD ZELUS
-        </h1>
-        <p style={{ color:'#8a8070', fontSize:13, letterSpacing:'0.1em',
-          maxWidth:500, margin:'0 auto 32px', lineHeight:1.8 }}>
-          The Zelus launcher automatically keeps your client up to date.
-          Download once, play forever.
-        </p>
+          {/* Divider line top */}
+          <div style={{ width:120, height:1, margin:'0 auto 32px',
+            background:'linear-gradient(90deg,transparent,#d4af37,transparent)' }} />
 
-        {/* Divider line bottom */}
-        <div style={{ width:80, height:1, margin:'0 auto',
-          background:'linear-gradient(90deg,transparent,rgba(212,175,55,0.4),transparent)' }} />
+          <p className="font-fantasy" style={{
+            fontSize:11, letterSpacing:'0.55em', marginBottom:12,
+            color:'#d4af37', textShadow:'0 1px 8px rgba(0,0,0,0.9)',
+          }}>
+            PLAY NOW
+          </p>
+          <h1 className="font-fantasy" style={{
+            fontSize:'clamp(28px,5vw,48px)', letterSpacing:'0.2em',
+            color:'#ffffff', textShadow:'0 2px 20px rgba(0,0,0,0.9), 0 0 30px rgba(212,175,55,0.2)',
+            marginBottom:20,
+          }}>
+            DOWNLOAD ZELUS
+          </h1>
+          {/* Divider line */}
+          <div style={{ width:80, height:1, margin:'0 auto 20px',
+            background:'linear-gradient(90deg,transparent,rgba(212,175,55,0.6),transparent)' }} />
+          <p style={{ color:'#c8bfb0', fontSize:13, letterSpacing:'0.1em',
+            maxWidth:480, margin:'0 auto', lineHeight:1.8,
+            textShadow:'0 1px 6px rgba(0,0,0,0.8)' }}>
+            The Zelus launcher automatically keeps your client up to date.
+            Download once, play forever.
+          </p>
+        </div>
       </div>
 
       {/* ── Platform cards ── */}
@@ -143,11 +155,12 @@ export default function DownloadView() {
       <div style={{ maxWidth:700, margin:'0 auto', padding:'0 24px' }}>
         <div style={{ textAlign:'center', marginBottom:36 }}>
           <div className="font-fantasy" style={{ fontSize:16, letterSpacing:'0.2em',
-            color:'#d4af37', marginBottom:8 }}>
+            color:'#d4af37', marginBottom:8,
+            textShadow:'0 2px 12px rgba(0,0,0,0.9)' }}>
             HOW IT WORKS
           </div>
           <div style={{ width:60, height:1, margin:'0 auto',
-            background:'linear-gradient(90deg,transparent,rgba(212,175,55,0.4),transparent)' }} />
+            background:'linear-gradient(90deg,transparent,rgba(212,175,55,0.6),transparent)' }} />
         </div>
 
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:24 }}>
@@ -157,12 +170,13 @@ export default function DownloadView() {
             { n:'3', title:'Play',       body:'The launcher downloads the client and connects automatically.' },
           ].map(({ n, title, body }) => (
             <div key={n} style={{ textAlign:'center', padding:'24px 16px',
-              background:'rgba(18,15,8,0.6)', border:'1px solid rgba(212,175,55,0.1)' }}>
-              <div className="font-fantasy" style={{ fontSize:28, color:'rgba(212,175,55,0.3)',
+              background:'rgba(5,4,8,0.92)', border:'1px solid rgba(212,175,55,0.25)',
+              boxShadow:'0 4px 24px rgba(0,0,0,0.7)' }}>
+              <div className="font-fantasy" style={{ fontSize:28, color:'#d4af37',
                 marginBottom:8 }}>{n}</div>
               <div className="font-fantasy" style={{ fontSize:12, letterSpacing:'0.18em',
                 color:'#d4af37', marginBottom:8 }}>{title.toUpperCase()}</div>
-              <div style={{ fontSize:12, color:'#6b6040', lineHeight:1.7 }}>{body}</div>
+              <div style={{ fontSize:12, color:'#c8bfb0', lineHeight:1.7 }}>{body}</div>
             </div>
           ))}
         </div>
