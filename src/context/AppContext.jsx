@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { checkout } from '../services/storeService.js';
 
 const AppContext = createContext(null);
 
@@ -12,24 +11,98 @@ function loadFromStorage(key, fallback) {
   }
 }
 
-export function AppProvider({ children }) {
-  const [currentUser, setCurrentUserState] = useState(() => loadFromStorage('currentUser', null));
-  const [currentView, setCurrentViewState] = useState(() => loadFromStorage('currentView', 'home'));
-  const [authStatus,  setAuthStatus]       = useState({ type: '', message: '' });
-  const [storeMessage, setStoreMessage]    = useState({ type: '', message: '' });
+/**
+ * Reads `?payment=success|cancelled` from the URL and strips those params so a
+ * page refresh doesn't re-show the result screen.  Called once at module load.
+ */
+function consumePaymentResult() {
+  const params = new URLSearchParams(window.location.search);
+  const result = params.get('payment');
+  if (result) {
+    params.delete('payment');
+    params.delete('session_id');
+    const newSearch = params.toString();
+    window.history.replaceState(
+      {},
+      '',
+      window.location.pathname + (newSearch ? `?${newSearch}` : ''),
+    );
+  }
+  return result ?? null;  // 'success' | 'cancelled' | null
+}
 
-  // Keep localStorage in sync whenever these change
+// Run once at module load — before any React state is initialized.
+const _initialPaymentResult = consumePaymentResult();
+
+/** Maps URL pathname → view name */
+const PATH_TO_VIEW = {
+  '/':          'home',
+  '/store':     'store',
+  '/donate':    'store',
+  '/vote':      'vote',
+  '/hiscores':  'hiscores',
+  '/download':  'download',
+  '/login':     'login',
+  '/register':  'register',
+  '/account':   'panel',
+};
+
+/** Maps view name → canonical URL path */
+const VIEW_TO_PATH = {
+  home:          '/',
+  store:         '/store',
+  vote:          '/vote',
+  hiscores:      '/hiscores',
+  download:      '/download',
+  login:         '/login',
+  register:      '/register',
+  panel:         '/account',
+  admin:         '/account',
+  payment_result: '/',
+};
+
+function getInitialView() {
+  if (_initialPaymentResult) return 'payment_result';
+  const path = window.location.pathname;
+  return PATH_TO_VIEW[path] ?? 'home';
+}
+
+export function AppProvider({ children }) {
+  const [currentUser,  setCurrentUserState] = useState(() => loadFromStorage('currentUser', null));
+  const [currentView,  setCurrentViewState] = useState(getInitialView);
+  const [paymentResult, setPaymentResult]   = useState(_initialPaymentResult);
+  const [authStatus,    setAuthStatus]      = useState({ type: '', message: '' });
+  const [storeMessage,  setStoreMessage]    = useState({ type: '', message: '' });
+  // When set to a package object, the CheckoutModal is open.
+  const [checkoutPkg,   setCheckoutPkg]     = useState(null);
+
   const setCurrentUser = (user) => {
     setCurrentUserState(user);
     if (user) localStorage.setItem('currentUser', JSON.stringify(user));
-    else       localStorage.removeItem('currentUser');
+    else {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('currentView'); // clean up legacy key
+    }
   };
 
   const setCurrentView = (view) => {
     setCurrentViewState(view);
-    localStorage.setItem('currentView', JSON.stringify(view));
+    const path = VIEW_TO_PATH[view] ?? '/';
+    window.history.pushState({ view }, '', path);
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const onPopState = (e) => {
+      const path = window.location.pathname;
+      const view = (e.state?.view) ?? PATH_TO_VIEW[path] ?? 'home';
+      setCurrentViewState(view);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   const handleLogout = () => {
     setCurrentUser(null);
@@ -37,24 +110,17 @@ export function AppProvider({ children }) {
     setStoreMessage({ type: '', message: '' });
   };
 
-  const handleCheckout = async (pkg) => {
+  /**
+   * Called by store cards and the featured widget.
+   * Redirects to login if not authenticated; otherwise opens the checkout modal.
+   */
+  const handleCheckout = (pkg) => {
     if (!currentUser) {
       setAuthStatus({ type: 'error', message: 'You must be logged in to make a purchase.' });
       setCurrentView('login');
       return;
     }
-    setStoreMessage({ type: 'info', message: 'Processing your order securely...' });
-    try {
-      const data = await checkout({
-        username:       currentUser.username,
-        package_name:   pkg.name,
-        usd_amount:     pkg.price,
-        tokens_to_give: pkg.tokens,
-      });
-      setStoreMessage({ type: 'success', message: data.message });
-    } catch (error) {
-      setStoreMessage({ type: 'error', message: error.message });
-    }
+    setCheckoutPkg(pkg);
   };
 
   return (
@@ -65,6 +131,8 @@ export function AppProvider({ children }) {
       storeMessage,   setStoreMessage,
       handleLogout,
       handleCheckout,
+      checkoutPkg,    setCheckoutPkg,
+      paymentResult,  setPaymentResult,
     }}>
       {children}
     </AppContext.Provider>
